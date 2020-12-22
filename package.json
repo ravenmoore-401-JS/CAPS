@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/ravenmoore-401-JS/CAPS#readme",
   "dependencies": {
+    "dotenv": "^8.2.0",
+    "faker": "^5.1.0",
     "jest": "^26.6.3"
   }
 }
