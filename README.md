@@ -8,8 +8,7 @@
 
 - [ci/cd](https://github.com/ravenmoore-401-JS/CAPS/actions) (GitHub Actions)
 
-
-- [submit PR](https://github.com/ravenmoore-401-JS/CAPS/pull/1)
+- [submit PR](https://github.com/ravenmoore-401-JS/CAPS/pull/2)
 
 ### Setup
 
