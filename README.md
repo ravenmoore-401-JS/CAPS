@@ -18,7 +18,8 @@ run `npm i`
 
 #### `.env` requirements (where applicable)
 
-- `STORE`
+- `STORENAME`
+- `PORT`
 
 #### How to initialize/run your application (where applicable)
 

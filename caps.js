@@ -1,23 +1,38 @@
 'use strict';
 
-const events = require('./events');
+require('dotenv').config();
+const port = process.env.PORT||3000;
+const io = require('socket.io')(port);
 
-require('./packagehandling/drivers/driver');
-require('./packagehandling/vendors/vendors');
+const caps =io.of('/caps');
 
-let date = Date().toString();
-
-events.on('pickup', (orderInfo) => {
-  console.log(orderInfo);
-  console.log(`EVENT { event: 'pickup', time: ${date}, payload: ${orderInfo} }`);
+io.on('connection', (socket) => {
+  console.log('im alive');
+  console.log('System Status Ready', socket.id);
 });
 
-events.on('in-transit', (orderInfo) =>{
-  console.log(`EVENT { event: 'in-transit', time: ${date}, payload: ${orderInfo} }`);
+caps.on('connection', (socket) =>{
+  function eventLoger(event, payload) {
+    const date = new Date().toString();
+    console.log('EVENT', { event, date, payload });
+  } 
+  console.log('CAPS Status Ready', socket.id);
+
+  socket.on('pickup', (orderInfo) =>{
+    eventLoger('pickup',orderInfo);
+    caps.emit('pickup',orderInfo);
+  });
+
+  socket.on('in-transit', (orderInfo) =>{
+    eventLoger('in-transit',orderInfo);
+    caps.emit('in-transit',orderInfo);
+  });
+
+  socket.on('delivered', (orderInfo) =>{
+    eventLoger('delivered',orderInfo);
+    caps.emit('delivered',orderInfo);
+  });
 });
 
-events.on('delivered', (orderInfo) => {
-  console.log(`EVENT { event: 'delivered', time: ${date}, payload: ${orderInfo} }`);
-});
 
 
