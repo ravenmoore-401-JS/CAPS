@@ -16,3 +16,7 @@ capsConnect.on('pickup', (orderInfo) =>{
     capsConnect.emit('delivered', orderInfo);
   },3000);
 });
+
+capsConnect.on('pickupReciced', (payload) =>{
+  
+})

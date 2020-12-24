@@ -8,30 +8,28 @@ const host = process.env.HOST;
 
 const capsConnect = io.connect(`${host}/caps`);
 
+capsConnect.emit('join', process.env.STORE);
+
 setInterval(() => {
   let orderId = Math.ceil(Math.random()*900);
-  let locationOptions = [process.env.STORE,process.env.STORE2,process.env.STORE3];
-  let randomLocation = Math.floor(Math.random()*locationOptions.length-1);
   let newOrder = {
     customerName : faker.name.firstName(),
     customerAddress: faker.address.city(),
     orderId,
-    storeName: locationOptions[randomLocation],
+    storeName: process.env.STORE,
   };
-  console.log(`Vender sent order ${newOrder}`);
-  capsConnect.emit('pickup', newOrder);
+  console.log(`Vender sent order ${newOrder}`);  
+  capsConnect.emit('pickup',newOrder);
 },5000);
 
+capsConnect.on('pickupRecived', () => {
+  console.log('pickup acknowlaged disconnecting');
+  capsConnect.disconnect();
+})
 
-
-const handleDelivered1 = (orderInfo) => {
-  if(orderInfo.storeName === process.env.STORE){
-    console.log(`thank you for delivering${orderInfo.orderId} from ${orderInfo.storeName}.`);}
-  if(orderInfo.storeName === process.env.STORE2){
-    console.log(`thank you for delivering${orderInfo.orderId} from ${orderInfo.storeName}.`);}
-  if(orderInfo.storeName === process.env.STORE3){
-    console.log(`thank you for delivering${orderInfo.orderId} from ${orderInfo.storeName}.`);}
-  console.log('lost package?');
+const handleDelivered = (orderInfo) => {
+  console.log(`thank you for delivering ${orderInfo.orderId} from ${orderInfo.storeName}.`);
 };
 
-capsConnect.on('delivered', handleDelivered1);
+
+capsConnect.on('delivered', handleDelivered);

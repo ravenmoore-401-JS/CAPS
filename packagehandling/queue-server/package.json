@@ -1,0 +1,24 @@
+{
+  "name": "queue-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "queue-server.js",
+  "scripts": {
+    "test": "jest --verbose --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ravenmoore-401-JS/CAPS.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ravenmoore-401-JS/CAPS/issues"
+  },
+  "homepage": "https://github.com/ravenmoore-401-JS/CAPS#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "socket.io-client": "^3.0.4"
+  }
+}
