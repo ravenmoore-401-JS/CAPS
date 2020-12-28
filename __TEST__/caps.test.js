@@ -1,9 +1,7 @@
 'use strict';
 
-const events = require('../events');
 describe('caps events', () =>{
   let consoleSpy;
-  let payload;
 
   beforeEach(() => {
     consoleSpy = jest.spyOn(console, 'log').mockImplementation();
@@ -14,7 +12,7 @@ describe('caps events', () =>{
   });
 
   it('hears event pickup', ()=>{
-    events.on('pickup',payload);      
+    events.on();      
     expect(consoleSpy).toHaveBeenCalled();
 
   });

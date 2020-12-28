@@ -12,27 +12,51 @@ io.on('connection', (socket) => {
 });
 
 caps.on('connection', (socket) =>{
-  function eventLoger(event, payload) {
-    const date = new Date().toString();
-    console.log('EVENT', { event, date, payload });
-  } 
+  
   console.log('CAPS Status Ready', socket.id);
+
+  socket.on('join', vendorRoom =>{
+    console.log(`you are in ${vendorRoom} room`);
+    socket.join(vendorRoom);
+
+  });
+
+  socket.on('driver-retriveMessages', (orderInfo) =>{
+    caps.emit('driver-retriveMessages',orderInfo);
+  });
 
   socket.on('pickup', (orderInfo) =>{
     eventLoger('pickup',orderInfo);
     caps.emit('pickup',orderInfo);
   });
+  socket.on('pickupRecived', (payload) =>{
+    eventLoger('pickup',payload);
+    caps.emit('pickupRecived',payload);
+  });
 
   socket.on('in-transit', (orderInfo) =>{
     eventLoger('in-transit',orderInfo);
-    caps.emit('in-transit',orderInfo);
+
+
+    caps.to(orderInfo.storeName).emit('in-transit',orderInfo);
   });
 
   socket.on('delivered', (orderInfo) =>{
     eventLoger('delivered',orderInfo);
-    caps.emit('delivered',orderInfo);
+    //SAVE TO
+
+    caps.to(orderInfo.storeName).emit('delivered',orderInfo);
   });
+  
+  
 });
+function eventLoger(event, payload) {
+  const date = new Date().toString();
+  console.log('EVENT', { event, date, payload });
+}
+
+module.exports = eventLoger;
+
 
 
 
